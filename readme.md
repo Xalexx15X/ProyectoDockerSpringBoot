@@ -27,7 +27,9 @@ http://localhost:9000
 ```sh
 http://localhost:9000/api/customers/{id}.
 
-``` 
+```
+aqui verias el id del cliente en el formato json 
+para ver el php tendremos que poner el la ruta donde se encuentra el proyecto en la url
 ### 5. Detener el proyecto
 
 ```sh

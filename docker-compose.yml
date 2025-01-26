@@ -1,6 +1,6 @@
 services:
   database:
-    image: mysql:5.7
+    build: ./bd
     container_name: mysql_container
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -9,12 +9,18 @@ services:
       - "3306:3306"
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
-    build: ./demo  # Actualiza esta ruta
+    build: ./demo
     container_name: springboot_container
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     ports:
       - "9000:9000"
     environment:
@@ -25,10 +31,10 @@ services:
       - app-network
 
   frontend:
-    build: ./php  # Asegúrate de que esta ruta sea correcta
+    build: ./php
     container_name: php_container
     depends_on:
-      - database
+      - backend
     ports:
       - "8081:80"
     networks:

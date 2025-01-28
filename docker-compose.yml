@@ -1,7 +1,6 @@
 services:
   database:
-    build: ./bd
-    container_name: mysql_container
+    image: alejandropm205/contenedorbd:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: springboot
@@ -16,8 +15,7 @@ services:
       retries: 5
 
   backend:
-    build: ./demo
-    container_name: springboot_container
+    image: alejandropm205/contenedorback:latest
     depends_on:
       database:
         condition: service_healthy
@@ -31,8 +29,7 @@ services:
       - app-network
 
   frontend:
-    build: ./php
-    container_name: php_container
+    image: alejandropm205/contenedorfront:latest
     depends_on:
       - backend
     ports:
